@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContaActivity"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de conta" />
+
+                <RadioGroup
+                    android:id="@+id/rg_tipo_centro_custo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text"
+                    android:checkedButton="@+id/centro_despesa">
+
+                    <RadioButton
+                        android:id="@+id/centro_despesa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Despesa" />
+
+                    <RadioButton
+                        android:id="@+id/centro_receita"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Receita" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descrição da conta" />
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/tv_valor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Valor R$" />
+
+                <EditText
+                    android:id="@+id/et_valor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+
+                <RadioGroup
+                    android:id="@+id/rg_tipo_conta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text"
+                    android:checkedButton="@+id/conta_avulsa">
+
+                    <RadioButton
+                        android:id="@+id/conta_avulsa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conta avulsa" />
+
+                    <RadioButton
+                        android:id="@+id/conta_fixa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conta fixa" />
+
+                    <RadioButton
+                        android:id="@+id/conta_parcelada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conta parcelada" />
+                </RadioGroup>
+
+
+                <LinearLayout
+                    android:id="@+id/block_parcelas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvt_quantidade_parcelas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Quantidade de parcelas" />
+
+                    <EditText
+                        android:id="@+id/et_quantidade_parcelas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/tv_valor_parcela"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Valor da parcela" />
+
+                    <EditText
+                        android:id="@+id/et_valor_parcela"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="numberDecimal" />
+
+                    <TextView
+                        android:id="@+id/tv_parcela_atual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Parcela atual" />
+
+                    <EditText
+                        android:id="@+id/et_parcela_atual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:text="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/block_dia_vencimento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dia de vencimento" />
+
+                    <EditText
+                        android:id="@+id/et_dia_vencimento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Observação" />
+
+                <EditText
+                    android:id="@+id/et_observacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:layout_gravity="bottom"
+            android:id="@+id/btn_salvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar" />
+    </FrameLayout>
+</LinearLayout>
