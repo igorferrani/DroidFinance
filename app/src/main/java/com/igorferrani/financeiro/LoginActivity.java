@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.igorferrani.financeiro.domain.Util;
 
 import java.util.concurrent.TimeUnit;
 
@@ -74,6 +76,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCodeSent(String vId, PhoneAuthProvider.ForceResendingToken token) {
                 verificationId = vId;
+
+                Util.showToast(context, "Informe o código recebido por SMS");
+
+                LinearLayout block_telefone = findViewById(R.id.block_telefone);
+                block_telefone.setVisibility(View.GONE);
+
+                LinearLayout block_codigo = findViewById(R.id.block_codigo);
+                block_codigo.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -83,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                String b = "";
+                Util.showToast(context, "Não foi possível enviar o código via SMS. Tente novamente");
             }
         });
     }

@@ -9,6 +9,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,8 +42,12 @@ public class DialogDetalheConta extends Dialog {
         final TextView tv_value = findViewById(R.id.tv_value);
         final Button btn_marcar_paga = findViewById(R.id.btn_marcar_paga);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        final String uid = currentUser.getUid();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("financeiro/saida");
+        final DatabaseReference myRef = database.getReference("financeiro/" + uid);
         myRef.child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,7 +75,7 @@ public class DialogDetalheConta extends Dialog {
             @Override
             public void onClick(View v) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("financeiro/saida");
+                DatabaseReference myRef = database.getReference("financeiro/" + uid);
                 myRef.child(key).child("status").setValue(1);
                 dismiss();
             }
@@ -80,7 +86,7 @@ public class DialogDetalheConta extends Dialog {
             @Override
             public void onClick(View v) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("financeiro/saida");
+                DatabaseReference myRef = database.getReference("financeiro/" + uid);
                 myRef.child(key).removeValue();
                 dismiss();
             }

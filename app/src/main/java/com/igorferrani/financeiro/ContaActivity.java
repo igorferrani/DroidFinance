@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.igorferrani.financeiro.domain.Conta;
@@ -57,9 +59,13 @@ public class ContaActivity extends AppCompatActivity {
         et_dia_vencimento = findViewById(R.id.et_dia_vencimento);
         et_observacao = findViewById(R.id.et_observacao);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("financeiro/saida");
+        final DatabaseReference myRef = database.getReference("financeiro/" + uid);
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rg_tipo_conta);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

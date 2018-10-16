@@ -5,34 +5,73 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".LoginActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="12dp">
 
-  <EditText
-      android:id="@+id/et_numero_telefone"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:ems="10"
-      android:hint="Telefone"
-      android:inputType="textPersonName" />
+      android:orientation="vertical"
+      android:layout_marginTop="30dp">
 
-  <Button
-      android:id="@+id/btn_sms"
+      <TextView
+          android:id="@+id/textView3"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="DroidFinance"
+          android:textColor="@color/color_quitado"
+          android:textSize="30sp" />
+
+      <TextView
+          android:id="@+id/textView5"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Informe seu telefone abaixo e acesse agora !" />
+  </LinearLayout>
+
+  <LinearLayout
+      android:id="@+id/block_telefone"
+      android:layout_marginTop="25dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Button" />
+      android:orientation="vertical">
 
-  <EditText
-      android:id="@+id/et_code"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:ems="10"
-      android:hint="Código"
-      android:inputType="textPersonName" />
+      <EditText
+          android:id="@+id/et_numero_telefone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="10"
+          android:hint="+5527999997777"
+          android:inputType="phone" />
 
-  <Button
-      android:id="@+id/btn_entrar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Button" />
+      <Button
+          android:id="@+id/btn_sms"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Entrar" />
+  </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/block_codigo"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Código"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btn_entrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="confirmar" />
+    </LinearLayout>
 
 </LinearLayout>

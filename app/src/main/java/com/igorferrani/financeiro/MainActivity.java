@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.igorferrani.financeiro.domain.Util;
 import com.igorferrani.financeiro.fragment.ContaPagarFragment;
 
@@ -63,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, ContaActivity.class);
                 startActivityForResult(intent, CODE_CADASTRO_CONTA);
+            }
+        });
+
+        Button btn_sair = findViewById(R.id.btn_sair);
+        btn_sair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

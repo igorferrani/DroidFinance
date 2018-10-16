@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -51,8 +53,12 @@ public class ContaPagarFragment extends Fragment implements RecyclerViewOnClickL
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Query myRef = database.getReference("financeiro/saida").orderByChild("dataDespesa").startAt(MainActivity.ano_atual + "-" + MainActivity.mes_atual);
+        Query myRef = database.getReference("financeiro/" + uid).orderByChild("dataDespesa").startAt(MainActivity.ano_atual + "-" + MainActivity.mes_atual);
 
         mList = new ArrayList<Conta>();
 
