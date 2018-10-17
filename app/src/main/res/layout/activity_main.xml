@@ -114,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="&lt;" />
+            
 
             <TextView
                 android:id="@+id/tv_mes_escrito"
