@@ -2,7 +2,7 @@ package com.igorferrani.financeiro.domain;
 
 import com.igorferrani.financeiro.R;
 
-public class Conta {
+public class Registro {
     public String key;
     public String description;
     public double value;
@@ -16,7 +16,7 @@ public class Conta {
     public String dataDespesa;
     public int centroCusto;
 
-    public static final String FB_KEY_CONTAS = "registros";
+    public static final String FB_KEY_REGISTROS = "registros";
 
     public static final int CONTA_AVULSA = 1;
     public static final int CONTA_FIXA = 2;
