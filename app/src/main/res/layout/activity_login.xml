@@ -18,7 +18,7 @@
           android:id="@+id/textView3"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="DroidFinance"
+          android:text="Contronomia"
           android:textColor="@color/color_quitado"
           android:textSize="30sp" />
 
@@ -73,5 +73,10 @@
             android:layout_height="wrap_content"
             android:text="confirmar" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_erro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

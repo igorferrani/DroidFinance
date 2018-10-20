@@ -6,23 +6,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.igorferrani.financeiro.R;
-import com.igorferrani.financeiro.domain.Conta;
+import com.igorferrani.financeiro.domain.Registro;
 import com.igorferrani.financeiro.interfaces.RecyclerViewOnClickListenerClick;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ContaAdapter extends RecyclerView.Adapter<ContaAdapter.MyViewHolder> {
 
-    private ArrayList<Conta> mList;
+    private ArrayList<Registro> mList;
     private LayoutInflater mLayoutInflater;
     private RecyclerViewOnClickListenerClick mRecyclerViewOnClickListenerClick;
 
-    public ContaAdapter(Context context, ArrayList<Conta> list) {
+    public ContaAdapter(Context context, ArrayList<Registro> list) {
         mList = list;
         mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -41,18 +39,18 @@ public class ContaAdapter extends RecyclerView.Adapter<ContaAdapter.MyViewHolder
         myViewHolder.tv_value.setText(Double.toString(mList.get(position).value));
         String textoTipoConta = "";
 
-        if (mList.get(position).tipoConta == Conta.CONTA_PARCELADA) {
+        if (mList.get(position).tipoConta == Registro.CONTA_PARCELADA) {
             textoTipoConta = "Parcela " + mList.get(position).parcelaAtual + "/" + mList.get(position).quantidadeParcelas + " (R$" + mList.get(position).valorParcela + ")";
-        } else if (mList.get(position).tipoConta == Conta.CONTA_FIXA) {
-            textoTipoConta = "Conta fixa, vence dia " + mList.get(position).diaVencimento;
-        } else if (mList.get(position).tipoConta == Conta.CONTA_AVULSA) {
-            textoTipoConta = "Conta avulsa";
+        } else if (mList.get(position).tipoConta == Registro.CONTA_FIXA) {
+            textoTipoConta = "Registro fixa, vence dia " + mList.get(position).diaVencimento;
+        } else if (mList.get(position).tipoConta == Registro.CONTA_AVULSA) {
+            textoTipoConta = "Registro avulsa";
         }
 
         int colorStatus;
 
         switch (mList.get(position).status) {
-            case Conta.STATUS_QUITADO:
+            case Registro.STATUS_QUITADO:
                 colorStatus = R.color.color_quitado;
                 break;
             default:

@@ -20,20 +20,29 @@ import com.igorferrani.financeiro.DialogDetalheConta;
 import com.igorferrani.financeiro.MainActivity;
 import com.igorferrani.financeiro.R;
 import com.igorferrani.financeiro.adapter.ContaAdapter;
-import com.igorferrani.financeiro.domain.Conta;
+import com.igorferrani.financeiro.domain.Registro;
+import com.igorferrani.financeiro.domain.Usuario;
+import com.igorferrani.financeiro.domain.Util;
 import com.igorferrani.financeiro.interfaces.RecyclerViewOnClickListenerClick;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class ContaPagarFragment extends Fragment implements RecyclerViewOnClickListenerClick {
 
     private RecyclerView mRecyclerView;
-    private ArrayList<Conta> mList;
+    private ArrayList<Registro> mList;
     private ContaAdapter adapter;
+    private MainActivity context;
+    private ValueEventListener registrosListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_conta, container, false);
+
+        context = (MainActivity) getActivity();
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_list);
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -57,53 +66,63 @@ public class ContaPagarFragment extends Fragment implements RecyclerViewOnClickL
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String uid = currentUser.getUid();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Query myRef = database.getReference("financeiro/" + uid).orderByChild("dataDespesa").startAt(MainActivity.ano_atual + "-" + MainActivity.mes_atual);
+        JSONObject usuarioLogado;
+        String keyConta;
 
-        mList = new ArrayList<Conta>();
+        try {
+            usuarioLogado = Usuario.getUsuarioLogado(context);
+            keyConta = usuarioLogado.getString("conta");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return view;
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Query myRef = database.getReference(Registro.FB_KEY_REGISTROS).child(keyConta).orderByChild("dataDespesa").startAt(MainActivity.ano_atual + "-" + MainActivity.mes_atual);
+
+        mList = new ArrayList<Registro>();
 
         adapter = new ContaAdapter(getActivity(), mList);
         adapter.setmRecyclerViewOnClickListenerClick(this);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        registrosListener = myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mList.clear();
                 for (DataSnapshot contaSnapshot: dataSnapshot.getChildren()) {
                     // TODO: handle the post
-                    Conta conta = contaSnapshot.getValue(Conta.class);
-                    if (conta != null) {
-                        conta.key = contaSnapshot.getKey();
-                        mList.add(conta);
+                    Registro registro = contaSnapshot.getValue(Registro.class);
+                    if (registro != null) {
+                        registro.key = contaSnapshot.getKey();
+                        mList.add(registro);
                     }
                 }
 
                 calculaSaldoGeral(mList);
-
                 mRecyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                //Util.showToast(context, "Erro ao relizar busca: " + databaseError.getMessage());
             }
         });
 
         return view;
     }
 
-    private void calculaSaldoGeral(ArrayList<Conta> list) {
+    private void calculaSaldoGeral(ArrayList<Registro> list) {
         double entrada = 0;
         double saida = 0;
         double saldo = 0;
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).status == Conta.STATUS_QUITADO) {
-                if (list.get(i).centroCusto == Conta.CENTRO_CUSTO_ENTRADA) {
+            if (list.get(i).status == Registro.STATUS_QUITADO) {
+                if (list.get(i).centroCusto == Registro.CENTRO_CUSTO_ENTRADA) {
                     entrada += list.get(i).value;
                 }
 
-                if (list.get(i).centroCusto == Conta.CENTRO_CUSTO_SAIDA) {
+                if (list.get(i).centroCusto == Registro.CENTRO_CUSTO_SAIDA) {
                     saida += list.get(i).value;
                 }
             }
@@ -112,7 +131,7 @@ public class ContaPagarFragment extends Fragment implements RecyclerViewOnClickL
         MainActivity.valor_entrada = entrada;
         MainActivity.valor_saida = saida;
 
-        ((MainActivity)getActivity()).setSaldo();
+        context.setSaldo();
     }
 
     @Override

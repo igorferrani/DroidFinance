@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         mes_atual = Integer.parseInt(data.split("-")[0]);
         ano_atual = Integer.parseInt(data.split("-")[1]);
 
-        refreshPage();
-
         Button btn_voltar_mes = findViewById(R.id.btn_voltar_mes);
         btn_voltar_mes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ContaActivity.class);
+                Intent intent = new Intent(context, RegistroActivity.class);
                 startActivityForResult(intent, CODE_CADASTRO_CONTA);
             }
         });
@@ -77,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        refreshPage();
     }
 
     private void handlerVoltarMes() {
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_CADASTRO_CONTA) {
             if(resultCode == Activity.RESULT_OK){
-                Util.showToast(context, "Conta registrada com sucesso !");
+                Util.showToast(context, "Registro registrada com sucesso !");
             }
         }
     }

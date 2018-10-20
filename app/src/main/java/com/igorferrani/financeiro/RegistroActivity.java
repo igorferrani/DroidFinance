@@ -1,7 +1,6 @@
 package com.igorferrani.financeiro;
 
 import android.app.Activity;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,23 +9,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.igorferrani.financeiro.domain.Conta;
+import com.igorferrani.financeiro.domain.Registro;
+import com.igorferrani.financeiro.domain.Usuario;
 import com.igorferrani.financeiro.domain.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ContaActivity extends AppCompatActivity {
+public class RegistroActivity extends AppCompatActivity {
 
     private Activity context = this;
     private RadioGroup rg_tipo_centro_custo;
@@ -62,10 +60,21 @@ public class ContaActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String uid = currentUser.getUid();
+        JSONObject usuarioLogado;
+        String keyConta;
+
+        try {
+            usuarioLogado = Usuario.getUsuarioLogado(context);
+            keyConta = usuarioLogado.getString("conta");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            finish();
+            return;
+        }
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("financeiro/" + uid);
+        final DatabaseReference myRef = database.getReference(Registro.FB_KEY_REGISTROS).child(keyConta);
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rg_tipo_conta);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -95,34 +104,34 @@ public class ContaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateForm()) {
-                    Conta conta = new Conta();
+                    Registro registro = new Registro();
 
                     if (rg_tipo_centro_custo.getCheckedRadioButtonId() == R.id.centro_despesa) {
-                        conta.centroCusto = Conta.CENTRO_CUSTO_SAIDA;
+                        registro.centroCusto = Registro.CENTRO_CUSTO_SAIDA;
                     } else {
-                        conta.centroCusto = Conta.CENTRO_CUSTO_ENTRADA;
+                        registro.centroCusto = Registro.CENTRO_CUSTO_ENTRADA;
                     }
 
-                    conta.description = et_description.getText().toString();
-                    conta.value = Double.parseDouble(et_valor.getText().toString());
-                    conta.tipoConta = conta.getIdTipoConta(rg_tipo_conta.getCheckedRadioButtonId());
+                    registro.description = et_description.getText().toString();
+                    registro.value = Double.parseDouble(et_valor.getText().toString());
+                    registro.tipoConta = registro.getIdTipoConta(rg_tipo_conta.getCheckedRadioButtonId());
 
                     if (rg_tipo_conta.getCheckedRadioButtonId() == R.id.conta_parcelada) {
-                        conta.quantidadeParcelas = Integer.parseInt(et_quantidade_parcelas.getText().toString());
-                        conta.parcelaAtual = Integer.parseInt(et_parcela_atual.getText().toString());
-                        conta.valorParcela = Double.parseDouble(et_valor_parcela.getText().toString());
+                        registro.quantidadeParcelas = Integer.parseInt(et_quantidade_parcelas.getText().toString());
+                        registro.parcelaAtual = Integer.parseInt(et_parcela_atual.getText().toString());
+                        registro.valorParcela = Double.parseDouble(et_valor_parcela.getText().toString());
                     }
 
                     if (rg_tipo_conta.getCheckedRadioButtonId() == R.id.conta_parcelada || rg_tipo_conta.getCheckedRadioButtonId() == R.id.conta_fixa) {
-                        conta.diaVencimento = Integer.parseInt(et_dia_vencimento.getText().toString());
+                        registro.diaVencimento = Integer.parseInt(et_dia_vencimento.getText().toString());
                     }
 
-                    conta.observacao = et_observacao.getText().toString();
+                    registro.observacao = et_observacao.getText().toString();
 
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    conta.dataDespesa = formatter.format(Calendar.getInstance().getTime());
+                    registro.dataDespesa = formatter.format(Calendar.getInstance().getTime());
 
-                    myRef.push().setValue(conta);
+                    myRef.push().setValue(registro);
 
                     setResult(RESULT_OK);
                     finish();

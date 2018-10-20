@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContaActivity"
+    tools:context=".RegistroActivity"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -34,7 +34,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tipo de conta" />
+                    android:text="Tipo de registro" />
 
                 <RadioGroup
                     android:id="@+id/rg_tipo_centro_custo"
@@ -60,7 +60,7 @@
                     android:id="@+id/tv_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Descrição da conta" />
+                    android:text="Descrição da registro" />
 
                 <EditText
                     android:id="@+id/et_description"
